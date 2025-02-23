@@ -1,8 +1,10 @@
 import sys
 import random
 
+# Path to word file from tutorial
 WORDS_FILE = "/usr/share/dict/words"
 
+# Opening file, singling out words
 def read_words():
     """Reads the system's words file and returns a list of words."""
     try:
@@ -12,6 +14,7 @@ def read_words():
     except FileNotFoundError:
         print(f"Error: The file '{WORDS_FILE}' was not found.")
         sys.exit(1)
+
 
 def generate_dictionary_words(word_list, num_words): 
     """Randomly selects num_words from word_list."""
