@@ -1,3 +1,4 @@
+import random
 import sys
 import string
 
@@ -33,6 +34,12 @@ def frequency(word, histogram):
 
 hist = histogram()
 
+for word, count in hist.items():
+    print(f"{word} {count}")
+
 user_input = input("Enter a word: ")
 print(f"The word '{user_input}' appears {frequency(user_input, hist)} times.")
 
+def random_word(histogram):
+    words = list(histogram.keys())  # Get a list of words
+    return random.choice(words)
