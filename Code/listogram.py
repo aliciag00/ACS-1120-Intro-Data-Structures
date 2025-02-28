@@ -3,6 +3,7 @@
 from __future__ import division, print_function  # Python 2 and 3 compatibility
 import random
 
+picked_words = ["red", "blue", "yellow", "red", "orange", "red", "purple"]
 
 class Listogram(list):
     """Listogram is a histogram implemented as a subclass of the list type."""
@@ -21,25 +22,48 @@ class Listogram(list):
     def add_count(self, word, count=1):
         """Increase frequency count of given word by given count amount."""
         # TODO: Increase word frequency by count
+        for entry in self:
+            if entry[0] == word:
+                entry[1] += count
+                self.tokens += count
+                return
+        self.append([word, count])
+        self.tokens += count
+        self.types += 1    
 
     def frequency(self, word):
         """Return frequency count of given word, or 0 if word is not found."""
         # TODO: Retrieve word frequency count
-
+        for entry in self:
+            if entry[0] == word:
+                return entry[1]
+        return 0
+        
     def __contains__(self, word):
         """Return boolean indicating if given word is in this histogram."""
         # TODO: Check if word is in this histogram
-
+        for entry in self:
+            if entry[0] == word:
+                return True
+        return False
+    
     def index_of(self, target):
         """Return the index of entry containing given target word if found in
         this histogram, or None if target word is not found."""
         # TODO: Implement linear search to find index of entry with target word
-
+        for index, entry in enumerate(self):
+            if entry[0] == target:
+                return index
+        return None
+    
     def sample(self):
         """Return a word from this histogram, randomly sampled by weighting
         each word's probability of being chosen by its observed frequency."""
         # TODO: Randomly choose a word based on its frequency in this histogram
-
+        words = [entry[0] for entry in self]
+        weights = [entry[1] for entry in self]
+        return random.choices(words, weights=weights)[0]
+    
 
 def print_histogram(word_list):
     print()
@@ -112,4 +136,16 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    histogram = Listogram(picked_words)
+    print("Listogram:", histogram)
+    print("Tokens:", histogram.tokens)
+    print("Types:", histogram.types)
+
+    print("'red' appears", histogram.frequency("red"), "times.")
+    print("'blue' appears", histogram.frequency("blue"), "times.")
+    print("'orange' appears", histogram.frequency("orange"), "times.")
+    print("'yellow' appears", histogram.frequency("yellow"), "times.")
+    print("'purple' appears", histogram.frequency("purple"), "times.")
+
+    print("Sample word:", histogram.sample())
+
