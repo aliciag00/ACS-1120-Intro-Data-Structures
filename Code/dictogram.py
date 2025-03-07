@@ -25,7 +25,7 @@ class Dictogram(dict):
             self[word] += count
         else:
             self[word] = count
-            self.types += count
+            self.types += 1
         self.tokens += count
 
     def frequency(self, word):
