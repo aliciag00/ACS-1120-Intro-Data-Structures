@@ -120,7 +120,7 @@ class HashTable(object):
             if k == key:
                 bucket.delete(k)
                 return
-    raise KeyError('Key not found: {}'.format(key))
+        raise KeyError('Key not found: {}'.format(key))
 
 def test_hash_table():
     ht = HashTable()
@@ -154,14 +154,14 @@ def test_hash_table():
 
 
 if __name__ == '__main__':
-    hash = HashTable()
+    hasht = HashTable()
 
-    hash.set('alicia', '1B')
-    hash.set('mel', 'CF')
-    hash.set('cait', 'LF')
-    hash.set('KJ', '3B')
-    hash.set('Tiare', 'SS')
-    hash.set('eby', 'C')
-    hash.set('nelly', 'P')
+    hasht.set('alicia', '1B')
+    hasht.set('mel', 'CF')
+    hasht.set('cait', 'LF')
+    hasht.set('KJ', '3B')
+    hasht.set('Tiare', 'SS')
+    hasht.set('eby', 'C')
+    hasht.set('nelly', 'P')
 
-    print(hash)
+    print(hasht)
