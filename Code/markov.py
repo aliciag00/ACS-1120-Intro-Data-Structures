@@ -1,35 +1,47 @@
+from collections import defaultdict
 import random 
 
 class Markov_chain:
     def __init__(self):
-        self.chain = {}
+        self.chain = defaultdict(list)
 
-    def learn(self, words):
-        for i in range(len(words) - 1):
-            word, next_word = words[i], words[i + 1]
-            if word not in self.chain:
-                self.chain[word] = {}
-            if next_word not in self.chain[word]:
-                self.chain[word][next_word] = 1
-            else:
-                self.chain[word][next_word] +=1
-
-    def generate(self, start_word, length=10):
-
-        if start_word not in self.chain:
-            return "Not found"
+    def build(self, words):
         
-        result = [start_word]
-        current_word = start_word
+        for i in range(len(words) - 1):
+            self.chain[words[i]].append(words[i + 1])
+
+    def generate(self, start_word=None, length=10):
+
+        if not self.chain:
+            return "Not found."
+        
+        if start_word is None or start_word not in self.chain:
+            start_word = random.choice(list(self.chain.keys()))
+
+        sentence = [start_word]
+        word = start_word
 
         for _ in range(length - 1):
-            next_words = list(self.chain[current_word].keys())
-            probabilities = list(self.chain[current_word].values())
-            total = sum(probabilities)
-            probabilities = [p / total for p in probabilities]
+            next_words = self.chain.get(word, [])
+            if not next_words:
+                break
+            word = random.choice(next_words)
+            sentence.append(word)
 
-            current_word = random.choices(next_words, probabilities)[0]
-            result.append(current_word)
+        return ' '.join(sentence)
+    
+def read_file(BOOK):
+    with open(BOOK, 'r', encoding='utf-8') as file:
+        text = file.read()
+    return text.split()
+        
+if __name__ == "__main__":
+    words = read_file('book.txt')
 
-        return " ".join(result)
+    markov = Markov_chain()
+    markov.build(words)
+
+    start_word = random.choice(words)
+    print(markov.generate(start_word, 20))
+
     
